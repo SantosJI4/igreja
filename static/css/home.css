@@ -1,0 +1,312 @@
+/* Configurações Gerais */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f4; /* Fundo claro para contrastar com o verde */
+    color: #333;
+}
+
+/* Header estilizado */
+header {
+    background-color: #2d4a27; /* Verde escuro do seu print */
+    color: #ffffff;
+    padding: 20px 0;
+}
+
+.header-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0 0 10px 0;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+/* O Novo Container Melhorado */
+.main-container {
+    max-width: 800px; /* Limita a largura para a leitura ficar confortável */
+    margin: 40px auto; /* Centraliza na tela e dá espaçamento topo/bairro */
+    padding: 0 20px;
+}
+
+/* Estilização das Seções */
+section {
+    margin-bottom: 40px;
+}
+
+section h2 {
+    color: #2d4a27;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    border-left: 4px solid #2d4a27;
+    padding-left: 10px;
+}
+
+/* Container das Frases em Destaque */
+.frase-destaque {
+    background-color: #ffffff; /* Fundo branco para destacar no fundo cinza claro */
+    padding: 20px;
+    border-radius: 8px; /* Cantos arredondados modernos */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Sombra bem suave */
+    border-left: 5px solid #4a7c39; /* Barra lateral verde chamativa */
+    transition: transform 0.2s ease;
+}
+
+/* Efeito sutil ao passar o mouse por cima do card */
+.frase-destaque:hover {
+    transform: translateY(-2px);
+}
+
+.frase-destaque p {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+}
+
+/* Link de contato dentro do destaque */
+.contato-box a {
+    color: #2d4a27;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.contato-box a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos do Formulário */
+.formulario-box {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border-top: 4px solid #2d4a27;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #2d4a27;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: #2d4a27;
+}
+
+.btn-enviar {
+    background-color: #2d4a27;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
+.btn-enviar:hover {
+    background-color: #4a7c39;
+}
+
+/* Detalhes do Feed de Mensagens */
+.feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tag-tipo {
+    background-color: #e2ede0;
+    color: #2d4a27;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.texto-postagem {
+    font-style: italic;
+}
+
+.meta-postagem {
+    margin-top: 10px;
+    text-align: right;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Modificações e novos elementos para o layout estilo Reddit */
+
+.reddit-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-left: 5px solid #4a7c39;
+    display: flex; /* Alinha a barra de votos ao lado do texto */
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+/* Barra Lateral de Votação */
+.votos-sidebar {
+    background-color: #f8f9fa;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 50px;
+}
+
+.btn-voto {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #878a8c;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+/* Cores de hover estilo Reddit (Laranja para cima, Azul para baixo) */
+.upvote:hover { color: #ff4500; }
+.downvote:hover { color: #7193ff; }
+
+.contador-votos {
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin: 5px 0;
+    color: #1a1a1b;
+}
+.contador-votos.positivo { color: #ff4500; }
+.contador-votos.negativo { color: #5a75cc; }
+
+/* Bloco do Conteúdo da Mensagem */
+.conteudo-postagem-box {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.divisor-comentarios {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 15px 0;
+}
+
+/* Seção de Comentários internos */
+.comentarios-section h4 {
+    margin: 0 0 10px 0;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.lista-comentarios {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.comentario-item {
+    background-color: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    border-left: 3px solid #cbd5e1;
+}
+
+/* Formulário de Comentário */
+.form-comentario {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.input-comentario-autor {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    max-width: 200px;
+}
+
+.input-grupo-comentario {
+    display: flex;
+    gap: 8px;
+}
+
+.input-comentario-texto {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.btn-comentar {
+    background-color: #4a7c39;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.btn-comentar:hover {
+    background-color: #2d4a27;
+}
+
+/* Footer */
+footer {
+    background-color: #2d4a27;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 6px;
+}

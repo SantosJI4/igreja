@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Casa de Deus</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>A Casa de Deus</h1>
+            <p>Compartilhe sua fé, experiências e palavras de conforto com a nossa comunidade.</p>
+            <nav>
+                <ul>
+                    <li><a href="#feed">Mensagens</a></li>
+                    <li><a href="#sobre">Coração</a></li>
+                    <li><a href="#contato">Rezar</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="main-container">
+            
+            <section id="nova-mensagem">
+                <h2>Compartilhe uma Palavra</h2>
+                <div class="formulario-box">
+                    <form action="/criar-postagem" method="POST">
+                        <div class="form-group">
+                            <label for="autor">Seu Nome / Devoto (Opcional):</label>
+                            <input type="text" id="autor" name="autor" placeholder="Ex: Irmão João ou Anônimo">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo de Postagem:</label>
+                            <select id="tipo" name="tipo">
+                                <option value="Frase Bíblica">Frase Bíblica</option>
+                                <option value="Relato/Experiência">Relato ou Experiência de Fé</option>
+                                <option value="Pedido de Oração">Pedido de Oração</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="conteudo">Sua Mensagem:</label>
+                            <textarea id="conteudo" name="conteudo" rows="4" placeholder="Digite aqui o versículo ou seu testemunho..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-enviar">Publicar na Comunidade</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="feed">
+                <h2>Mural da Comunidade</h2>
+                <div class="feed-container">
+                    {% for postagem in postagens %}
+                    <div class="reddit-card">
+                        
+                        <div class="votos-sidebar">
+                            <form action="/votar/{{ postagem.id }}/up" method="POST">
+                                <button type="submit" class="btn-voto upvote" title="Impulsionar"><i class="fas fa-arrow-up"></i></button>
+                            </form>
+                            <span class="contador-votos {{ 'positivo' if postagem.votos > 0 else ('negativo' if postagem.votos < 0 else '') }}">{{ postagem.votos }}</span>
+                            <form action="/votar/{{ postagem.id }}/down" method="POST">
+                                <button type="submit" class="btn-voto downvote" title="Diminuir relevância"><i class="fas fa-arrow-down"></i></button>
+                            </form>
+                        </div>
+
+                        <div class="conteudo-postagem-box">
+                            <span class="tag-tipo">{{ postagem.tipo }}</span>
+                            <p class="texto-postagem">"{{ postagem.conteudo }}"</p>
+                            <div class="meta-postagem">
+                                <span>— Por: <strong>{{ postagem.autor if postagem.autor else 'Anônimo' }}</strong></span>
+                            </div>
+
+                            <hr class="divisor-comentarios">
+
+                            <div class="comentarios-section">
+                                <h4><i class="far fa-comments"></i> Comentários ({{ postagem.comentarios|length }})</h4>
+                                
+                                <div class="lista-comentarios">
+                                    {% for com in postagem.comentarios %}
+                                    <div class="comentario-item">
+                                        <strong>{{ com.autor if com.autor else 'Anônimo' }}:</strong> {{ com.texto }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+
+                                <form action="/comentar/{{ postagem.id }}" method="POST" class="form-comentario">
+                                    <input type="text" name="autor_comentario" placeholder="Seu nome (opcional)" class="input-comentario-autor">
+                                    <div class="input-grupo-comentario">
+                                        <input type="text" name="texto_comentario" placeholder="Escreva um comentário de apoio..." required class="input-comentario-texto">
+                                        <button type="submit" class="btn-comentar">Responder</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% else %}
+                    <div class="frase-destaque" style="text-align: center;">
+                        <p>Ainda não há mensagens compartilhadas. Seja o primeiro a postar!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section id="sobre">
+                <h2>Sobre Nós</h2>
+                <div class="frase-destaque">
+                    <p>A Casa de Deus é um espaço livre onde cristãos e devotos do mundo inteiro encontram um lugar para ler a palavra e se conectar em uma jornada espiritual coletiva.</p>
+                </div>
+            </section>
+
+            <section id="contato">
+                <h2>Contato</h2>
+                <div class="frase-destaque contato-box">
+                    <p>Entre em contato conosco através do e-mail: <a href="mailto:casadedeus2026@gmail.com">casadedeus2026@gmail.com</a></p>
+                </div>
+            </section>
+            
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 A Casa de Deus. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

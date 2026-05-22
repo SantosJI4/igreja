@@ -78,4 +78,6 @@ def comentar(post_id):
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # host='0.0.0.0' permite conexões externas
+    # port=80 é a porta padrão da internet (HTTP)
+    app.run(host='0.0.0.0', port=80, debug=True)

@@ -138,7 +138,20 @@
     <footer>
         <p>&copy; 2026 A Casa de Deus. Todos os direitos reservados.</p>
     </footer>
+    <button type="button" class="fab-publicar" id="btn-fab-abrir" aria-label="Compartilhar Fé" style="display: none;">
+        <i class="fas fa-pen"></i>
+    </button>
 
+    <div class="modal-formulario-overlay" id="modal-formulario-layout">
+        <div class="modal-content-comunidade">
+            <div class="modal-header-comunidade">
+                <h2>Compartilhe sua Fé</h2>
+                <button type="button" class="btn-fechar-modal" id="btn-fab-fechar">&times;</button>
+            </div>
+            <div id="container-formulario-dinamico">
+                </div>
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

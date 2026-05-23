@@ -213,3 +213,4 @@ def teste_google():
 if __name__ == '__main__':
     # Habilitado host '0.0.0.0' e porta padrão HTTP 80 para acesso externo na rede
     app.run(host='0.0.0.0', port=80, debug=True)
+    # 

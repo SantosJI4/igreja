@@ -90,3 +90,86 @@
             document.getElementById('form-nova-postagem').reset();
         });
     });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const btnAbrir = document.getElementById('btn-fab-abrir');
+    const btnFechar = document.getElementById('btn-fab-fechar');
+    const modal = document.getElementById('modal-formulario-layout');
+    
+    const originalFormContainer = document.querySelector('.coluna-esquerda .formulario-box');
+    const modalFormContainer = document.getElementById('container-formulario-dinamico');
+    const formElement = document.getElementById('form-nova-postagem');
+
+    // 1. Gerencia o posicionamento do formulário baseado no Viewport
+    function gerenciarLayoutFormulario() {
+        if (window.innerWidth <= 768) {
+            if (btnAbrir) btnAbrir.style.display = 'flex';
+            if (formElement && modalFormContainer && modalFormContainer.children.length === 0) {
+                modalFormContainer.appendChild(formElement);
+            }
+        } else {
+            if (btnAbrir) btnAbrir.style.display = 'none';
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+            }
+            if (formElement && originalFormContainer && originalFormContainer.children.length === 0) {
+                originalFormContainer.appendChild(formElement);
+            }
+        }
+    }
+
+    // 2. Ouvintes de Evento para Abrir/Fechar o Modal
+    if (btnAbrir) {
+        btnAbrir.addEventListener('click', () => {
+            if (modal) {
+                modal.style.display = 'flex'; // Garante o display antes da classe
+                setTimeout(() => modal.classList.add('active'), 10);
+            }
+        });
+    }
+
+    if (btnFechar) {
+        btnFechar.addEventListener('click', fecharModalMobile);
+    }
+
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                fecharModalMobile();
+            }
+        });
+    }
+
+    function fecharModalMobile() {
+        if (modal) {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                if (!modal.classList.contains('active')) {
+                    modal.style.display = 'none';
+                }
+            }, 300); // Tempo batendo com a animação do CSS
+        }
+    }
+
+    // 3. SOLUÇÃO DO PROBLEMA: Delegação de Evento Global para o Submit
+    // Isso garante que não importa onde o formulário esteja, o clique vai funcionar.
+    document.addEventListener('submit', function(event) {
+        // Verifica se o formulário disparado é o de nova postagem
+        if (event.target && event.target.id === 'form-nova-postagem') {
+            
+            // Se você já tinha um event.preventDefault() na sua lógica antiga do main.js, 
+            // mantenha-o aqui para a sua requisição AJAX/Fetch rodar normalmente.
+            // event.preventDefault(); 
+
+            // Se estiver no mobile, fecha o modal logo após o envio
+            if (window.innerWidth <= 768) {
+                fecharModalMobile();
+            }
+        }
+    });
+
+    // Execução inicial e monitoramento de redimensionamento
+    window.addEventListener('resize', gerenciarLayoutFormulario);
+    gerenciarLayoutFormulario();
+});

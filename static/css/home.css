@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f6f4; /* Fundo claro para contrastar com o verde */
+    background-color: #f4f6Sf4; /* Fundo claro para contrastar com o verde */
     color: #333;
 }
 
@@ -22,6 +22,24 @@ header {
     flex-direction: column;
     align-items: center;
     text-align: center;
+}
+
+.modal-formulario-overlay {
+    display: none; 
+}
+
+.fab-publicar {
+    display: none; /* Garante que o botão flutuante não apareça no PC */
+}
+
+
+.btn-fechar-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+    padding: 5px;
 }
 
 header h1 {
@@ -190,13 +208,187 @@ section h2 {
     align-items: start;
 }
 
-/* Responsividade: Se a tela for pequena, vira uma coluna só */
-@media (max-width: 1024px) {
+/* ==========================================
+   MEDIA QUERY: DISPOSITIVOS MÓVEIS (≤ 768px)
+   ========================================== */
+@media (max-width: 768px) {
+    /* --- 1. Reordenação e Empilhamento do Layout --- */
     .layout-comunidade {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 0 12px; /* Margens laterais ligeiramente menores no mobile */
+        margin: 20px auto;
     }
-    .sticky-sidebar {
-        position: static !important;
+
+    .coluna-direita {
+        order: 1; /* Espaço do Admin no Topo */
+    }
+
+    .coluna-central {
+        order: 2; /* Mural da Comunidade abaixo do Admin */
+        width: 100%;
+    }
+
+    /* Oculta a estrutura original da coluna esquerda do fluxo */
+    .coluna-esquerda {
+        display: none; 
+    }
+
+    /* Mudanças tipográficas sutis */
+    .coluna-central > h2 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+
+    .texto-postagem {
+        font-size: 1rem;
+    }
+
+    /* --- 2. Floating Action Button (FAB) & Modal do Formulário --- */
+    .fab-publicar {
+        display: flex;
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 56px;
+        height: 56px;
+        background-color: #2d4a27;
+        color: #ffffff;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        z-index: 999;
+        border: none;
+        cursor: pointer;
+        font-size: 1.3rem;
+        transition: transform 0.2s ease, background-color 0.2s;
+    }
+
+    .fab-publicar:active {
+        transform: scale(0.9);
+        background-color: #4a7c39;
+    }
+
+    /* Estrutura do Modal do Formulário */
+    .modal-formulario-overlay {
+        display: none; /* Controlado via JS */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        z-index: 1000;
+        justify-content: center;
+        align-items: flex-end; /* Comportamento de Bottom Sheet no mobile */
+    }
+
+    .modal-formulario-overlay.active {
+        display: flex;
+    }
+
+    .modal-content-comunidade {
+        background-color: #ffffff;
+        width: 100%;
+        max-height: 85vh;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+        overflow-y: auto;
+        animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
+
+    .modal-header-comunidade {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .modal-header-comunidade h2 {
+        margin: 0;
+        color: #2d4a27;
+        font-size: 1.25rem;
+    }
+
+    .btn-fechar-modal {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #666;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    /* --- 3. Adaptação dos Cards do Mural --- */
+    .reddit-card {
+        flex-direction: column; /* Move a barra de votos para baixo/cima */
+        position: relative;
+    }
+
+    .conteudo-postagem-box {
+        padding: 16px; /* Redução de padding para ganho de área horizontal */
+    }
+
+    /* Alinhamento horizontal do Sistema de Votos na base */
+    .votos-sidebar {
+        flex-direction: row;
+        background-color: #f8f9fa;
+        padding: 8px 16px;
+        min-width: auto;
+        justify-content: flex-start;
+        gap: 12px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .btn-voto {
+        padding: 8px;
+    }
+
+    .contador-votos {
+        margin: 0;
+        line-height: 2rem;
+    }
+
+    /* --- 4. Acessibilidade e UI dos Comentários --- */
+    /* Tamanho de Toque Mínimo (Métrica de Acessibilidade 48px) */
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea,
+    .input-comentario-autor,
+    .input-comentario-texto,
+    .btn-enviar,
+    .btn-comentar {
+        min-height: 48px;
+        box-sizing: border-box;
+    }
+
+    /* Reformulação do Grid/Flex de comentários internos */
+    .form-comentario {
+        gap: 10px;
+    }
+
+    .input-grupo-comentario {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .input-comentario-autor,
+    .input-comentario-texto,
+    .btn-comentar {
+        width: 100% !important;
+        max-width: 100% !important;
     }
 }
 

@@ -204,7 +204,7 @@ def deletar_conteudo(id):
     db.session.delete(item)
     db.session.commit()
     return redirect(url_for('admin_painel'))
-@app.route('/google93e6ce46bbc29605.html/', methods=['POST'])
+@app.route('/google93e6ce46bbc29605.html/', methods=['GET'])
 def teste_google():
     return render_template('google93e6ce46bbc29605.html')
 # ==============================================================================

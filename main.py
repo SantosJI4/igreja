@@ -204,7 +204,10 @@ def deletar_conteudo(id):
     db.session.delete(item)
     db.session.commit()
     return redirect(url_for('admin_painel'))
-
+@app.route('/google93e6ce46bbc29605.html/', methods=['POST'])
+@teste_google
+def teste_google():
+    return render_template('google93e6ce46bbc29605.html')
 # ==============================================================================
 # 🚀 INICIALIZAÇÃO DO SERVIDOR (PRODUÇÃO / PORTA 80)
 # ==============================================================================

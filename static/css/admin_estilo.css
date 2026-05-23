@@ -1,0 +1,337 @@
+/* ==============================================================================
+   🎨 ESTILO DO PAINEL ADMINISTRATIVO E TELA DE LOGIN - A CASA DE DEUS
+   ============================================================================== */
+
+/* --- VARIÁVEIS DE DESIGN INTEGRAIS --- */
+:root {
+    --bg-global: #f1f5f9;
+    --bg-card: #ffffff;
+    --texto-principal: #1e293b;
+    --texto-secundario: #64748b;
+    --borda: #cbd5e1;
+    
+    /* Cores de Feedback de Ações */
+    --sucesso: #10b981;
+    --sucesso-hover: #059669;
+    --perigo: #ef4444;
+    --perigo-hover: #dc2626;
+    --aviso-bg: #fef2f2;
+    
+    /* Configurações de transição e sombras */
+    --sombra-suave: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --sombra-card: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    --transicao: all 0.2s ease-in-out;
+}
+
+/* --- ESTILOS DE LIMPEZA E CONFIGURAÇÃO BASE --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-global);
+    color: var(--texto-principal);
+    line-height: 1.5;
+}
+
+/* ==============================================================================
+   🔐 1. DESIGN E COR DA TELA DE LOGIN
+   ============================================================================== */
+.login-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-box {
+    background: var(--bg-card);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: var(--sombra-card);
+    width: 100%;
+    max-width: 420px;
+    border-top: 5px solid var(--cor-principal, #2d4a27);
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 8px;
+    color: var(--texto-principal);
+    font-size: 1.75rem;
+}
+
+.login-box p.subtitulo {
+    text-align: center;
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+}
+
+/* Caixa de Erro Interna */
+.alerta-erro {
+    color: var(--perigo);
+    background: var(--aviso-bg);
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 20px;
+    border: 1px solid #fee2e2;
+    font-weight: 500;
+}
+
+/* ==============================================================================
+   🖥️ 2. LAYOUT DO PAINEL DE CONTROLE (ADMIN)
+   ============================================================================== */
+.admin-header-container {
+    max-width: 1100px;
+    margin: 40px auto 20px auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-header-container h1 {
+    font-size: 1.8rem;
+    color: var(--texto-principal);
+}
+
+.link-logout {
+    color: var(--perigo);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: var(--transicao);
+}
+
+.link-logout:hover {
+    background-color: var(--aviso-bg);
+    border-color: #fee2e2;
+}
+
+/* Grid Organizador */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto 40px auto;
+    padding: 0 20px;
+}
+
+.admin-box {
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--sombra-suave);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+/* Se a tela encolher, as duas colunas viram uma só */
+@media (max-width: 768px) {
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+    .full-width {
+        grid-column: span 1;
+    }
+    .admin-header-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
+.admin-box h2 {
+    font-size: 1.3rem;
+    color: var(--texto-principal);
+    margin-bottom: 12px;
+}
+
+.admin-box p.descricao {
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+/* ==============================================================================
+   📝 3. ESTILIZAÇÃO DOS FORMULÁRIOS INTERNOS
+   ============================================================================== */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--texto-principal);
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: var(--texto-principal);
+    background-color: #f8fafc;
+    transition: var(--transicao);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--cor-principal, #2d4a27);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(45, 74, 39, 0.1);
+}
+
+/* Seletor Especial de Cores */
+.cor-picker {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px dashed var(--borda);
+}
+
+.cor-picker input[type="color"] {
+    -webkit-appearance: none;
+    border: none;
+    width: 55px;
+    height: 45px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.cor-picker input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.cor-picker input[type="color"]::-webkit-color-swatch {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+}
+
+/* Botões Modernos */
+.btn-enviar-admin {
+    background-color: var(--cor-principal, #2d4a27);
+    color: #ffffff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transicao);
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.btn-enviar-admin:hover {
+    filter: brightness(1.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ==============================================================================
+   📋 4. GERENCIADOR DE ITENS DA SIDEBAR DIREITA
+   ============================================================================== */
+.lista-gerenciador {
+    margin-top: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.item-gerenciable {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    transition: var(--transicao);
+}
+
+.item-gerenciable:hover {
+    background: #f1f5f9;
+    transform: translateX(2px);
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 85%;
+}
+
+.badge-tipo {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    width: max-content;
+}
+
+/* Cores das Badges Dinâmicas */
+.badge-leitura { background-color: #2d4a27; }
+.badge-musica { background-color: #b45309; }
+.badge-aviso { background-color: #1d4ed8; }
+
+.item-texto-preview {
+    font-size: 0.9rem;
+    color: var(--texto-secundario);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Botão Excluir */
+.btn-deletar-admin {
+    background-color: transparent;
+    color: var(--perigo);
+    border: 1px solid #fee2e2;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.btn-deletar-admin:hover {
+    background-color: var(--perigo);
+    color: #ffffff;
+    border-color: var(--perigo);
+}

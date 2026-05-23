@@ -1,0 +1,76 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Admin - A Casa de Deus</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_estilo.css') }}">
+    <style>
+        :root { --cor-principal: {{ cor_atual }}; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-header-container">
+        <h1>Painel de Controle</h1>
+        <a href="/admin/logout" class="link-logout">Sair do Painel</a>
+    </div>
+
+    <div class="admin-grid">
+        
+        <div class="admin-box">
+            <h2>Identidade Visual</h2>
+            <p class="descricao">Escolha a nova cor mestre do site (Cabeçalho, botões e bordas mudarão automaticamente).</p>
+            <form action="/admin/atualizar-cor" method="POST">
+                <div class="cor-picker">
+                    <input type="color" name="cor_site" value="{{ cor_atual }}">
+                    <button type="submit" class="btn-enviar-admin">Salvar Cor</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="admin-box">
+            <h2>Publicar Conteúdo Oficial</h2>
+            <p class="descricao">Adicione louvores ou leituras marcantes como "Lucas - 1 - 21" diretamente na barra lateral dos devotos.</p>
+            <form action="/admin/adicionar-conteudo" method="POST">
+                <div class="form-group">
+                    <label>Tipo de Conteúdo:</label>
+                    <select name="categoria">
+                        <option value="leitura">📖 Leitura Bíblica</option>
+                        <option value="musica">🎵 Música / Louvor</option>
+                        <option value="aviso">📢 Aviso Geral</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Título / Caminho:</label>
+                    <input type="text" name="titulo" placeholder="Ex: Lucas - 1 - 21 ou Porque Ele Vive" required>
+                </div>
+                <div class="form-group">
+                    <label>Conteúdo explicativo:</label>
+                    <textarea name="conteudo" rows="3" placeholder="Insira o versículo ou descrição curta aqui..." required></textarea>
+                </div>
+                <button type="submit" class="btn-enviar-admin">Publicar na Coluna Direita</button>
+            </form>
+        </div>
+
+        <div class="admin-box full-width">
+            <h2>Gerenciar Conteúdos Oficiais Ativos</h2>
+            <p class="descricao">Veja tudo que está visível e remova itens antigos quando preferir.</p>
+            
+            <div class="lista-gerenciador">
+                {% for item in conteudos %}
+                <div class="item-gerenciable">
+                    <div class="item-info">
+                        <span class="badge-tipo badge-{{ item.categoria }}">{{ item.categoria }}</span>
+                        <strong>{{ item.titulo }}</strong>
+                        <span class="item-texto-preview">"{{ item.conteudo }}"</span>
+                    </div>
+                    <form action="/admin/deletar-conteudo/{{ item.id }}" method="POST">
+                        <button type="submit" class="btn-deletar-admin">Remover</button>
+                    </form>
+                </div>
+                {% else %}
+                <p style="color: var(--texto-secundario); text-align: center; padding: 20px;">Nenhum conteúdo cadastrado na base de dados.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</body>

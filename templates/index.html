@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Casa de Deus</title>
+    
+    <title>A Casa de Deus | Mural Cristão, Orações e Comunidade Online</title>
+
+    <meta name="description" content="Compartilhe sua fé, testemunhos e versículos bíblicos. Encontre uma comunidade unida para deixar seus pedidos de oração e palavras de conforto diário.">
+
+    <meta name="keywords" content="casa de deus, igreja online, mural cristo, pedido de oracao, versiculo do dia, comunidade crista, ler a biblia, louvores, fe crista">
+
+    <meta name="author" content="A Casa de Deus">
+    <meta name="robots" content="index, follow"> <meta property="og:type" content="website">
+    <meta property="og:title" content="A Casa de Deus | Comunidade Cristã Interativa">
+    <meta property="og:description" content="Deixe seu pedido de oração, acompanhe as leituras da Bíblia e edifique a sua fé com irmãos da igreja inteira.">
+    <meta property="og:url" content="https://acasa.squareweb.app">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { --cor-principal: {{ cor_site }}; }
+    </style>
 </head>
 <body>
     <header>
@@ -23,107 +38,107 @@
     </header>
 
     <main>
-        <div class="main-container">
-            
-            <section id="nova-mensagem">
-                <h2>Compartilhe uma Palavra</h2>
+    <div class="layout-comunidade">
+        
+        <aside class="coluna-esquerda">
+            <div class="sidebar-box sticky-sidebar">
+                <h2>Compartilhe sua Fé</h2>
                 <div class="formulario-box">
-                    <form action="/criar-postagem" method="POST">
+                    <form id="form-nova-postagem">
                         <div class="form-group">
-                            <label for="autor">Seu Nome / Devoto (Opcional):</label>
-                            <input type="text" id="autor" name="autor" placeholder="Ex: Irmão João ou Anônimo">
+                            <label for="autor">Seu Nome (Opcional):</label>
+                            <input type="text" id="autor" name="autor" placeholder="Ex: Irmão João">
                         </div>
                         <div class="form-group">
-                            <label for="tipo">Tipo de Postagem:</label>
+                            <label for="tipo">Tipo:</label>
                             <select id="tipo" name="tipo">
                                 <option value="Frase Bíblica">Frase Bíblica</option>
-                                <option value="Relato/Experiência">Relato ou Experiência de Fé</option>
+                                <option value="Relato/Experiência">Relato de Fé</option>
                                 <option value="Pedido de Oração">Pedido de Oração</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="conteudo">Sua Mensagem:</label>
-                            <textarea id="conteudo" name="conteudo" rows="4" placeholder="Digite aqui o versículo ou seu testemunho..." required></textarea>
+                            <textarea id="conteudo" name="conteudo" rows="4" placeholder="Digite aqui..." required></textarea>
                         </div>
-                        <button type="submit" class="btn-enviar">Publicar na Comunidade</button>
+                        <button type="submit" class="btn-enviar">Publicar no Mural</button>
                     </form>
                 </div>
-            </section>
+            </div>
+        </aside>
 
-            <section id="feed">
-                <h2>Mural da Comunidade</h2>
-                <div class="feed-container">
-                    {% for postagem in postagens %}
-                    <div class="reddit-card">
+        <section class="coluna-central">
+            <h2>Mural da Comunidade</h2>
+            <div class="feed-container" id="mural-postagens">
+                
+                {% for postagem in postagens %}
+                <div class="reddit-card" id="post-card-{{ postagem.id }}">
+                    <div class="votos-sidebar">
+                        <button type="button" class="btn-voto upvote" onclick="enviarVoto('{{ postagem.id }}', 'up')"><i class="fas fa-arrow-up"></i></button>
+                        <span id="contador-{{ postagem.id }}" class="contador-votos {{ 'positivo' if postagem.votos > 0 else ('negativo' if postagem.votos < 0 else '') }}">{{ postagem.votos }}</span>
+                        <button type="button" class="btn-voto downvote" onclick="enviarVoto('{{ postagem.id }}', 'down')"><i class="fas fa-arrow-down"></i></button>
+                    </div>
+                    <div class="conteudo-postagem-box">
+                        <span class="tag-tipo">{{ postagem.tipo }}</span>
+                        <p class="texto-postagem">"{{ postagem.conteudo }}"</p>
+                        <div class="meta-postagem"><span>— Por: <strong>{{ postagem.autor }}</strong></span></div>
                         
-                        <div class="votos-sidebar">
-                            <form action="/votar/{{ postagem.id }}/up" method="POST">
-                                <button type="submit" class="btn-voto upvote" title="Impulsionar"><i class="fas fa-arrow-up"></i></button>
-                            </form>
-                            <span class="contador-votos {{ 'positivo' if postagem.votos > 0 else ('negativo' if postagem.votos < 0 else '') }}">{{ postagem.votos }}</span>
-                            <form action="/votar/{{ postagem.id }}/down" method="POST">
-                                <button type="submit" class="btn-voto downvote" title="Diminuir relevância"><i class="fas fa-arrow-down"></i></button>
-                            </form>
-                        </div>
-
-                        <div class="conteudo-postagem-box">
-                            <span class="tag-tipo">{{ postagem.tipo }}</span>
-                            <p class="texto-postagem">"{{ postagem.conteudo }}"</p>
-                            <div class="meta-postagem">
-                                <span>— Por: <strong>{{ postagem.autor if postagem.autor else 'Anônimo' }}</strong></span>
+                        <hr class="divisor-comentarios">
+                        
+                        <div class="comentarios-section">
+                            <h4 id="titulo-comentarios-{{ postagem.id }}"><i class="far fa-comments"></i> Comentários ({{ postagem.comentarios|length }})</h4>
+                            <div class="lista-comentarios" id="lista-comentarios-{{ postagem.id }}">
+                                {% for com in postagem.comentarios %}
+                                <div class="comentario-item"><strong>{{ com.autor }}:</strong> {{ com.texto }}</div>
+                                {% endfor %}
                             </div>
-
-                            <hr class="divisor-comentarios">
-
-                            <div class="comentarios-section">
-                                <h4><i class="far fa-comments"></i> Comentários ({{ postagem.comentarios|length }})</h4>
-                                
-                                <div class="lista-comentarios">
-                                    {% for com in postagem.comentarios %}
-                                    <div class="comentario-item">
-                                        <strong>{{ com.autor if com.autor else 'Anônimo' }}:</strong> {{ com.texto }}
-                                    </div>
-                                    {% endfor %}
+                            <form onsubmit="enviarComentario(event, '{{ postagem.id }}')" class="form-comentario">
+                                <input type="text" name="autor_comentario" placeholder="Seu nome" class="input-comentario-autor">
+                                <div class="input-grupo-comentario">
+                                    <input type="text" name="texto_comentario" placeholder="Escreva um apoio..." required class="input-comentario-texto">
+                                    <button type="submit" class="btn-comentar">Responder</button>
                                 </div>
-
-                                <form action="/comentar/{{ postagem.id }}" method="POST" class="form-comentario">
-                                    <input type="text" name="autor_comentario" placeholder="Seu nome (opcional)" class="input-comentario-autor">
-                                    <div class="input-grupo-comentario">
-                                        <input type="text" name="texto_comentario" placeholder="Escreva um comentário de apoio..." required class="input-comentario-texto">
-                                        <button type="submit" class="btn-comentar">Responder</button>
-                                    </div>
-                                </form>
-                            </div>
+                            </form>
                         </div>
-
                     </div>
+                </div>
+                {% else %}
+                <div id="mural-vazio" class="frase-destaque" style="text-align: center;">
+                    <p>Ainda não há mensagens compartilhadas. Seja o primeiro a postar!</p>
+                </div>
+                {% endfor %}
+
+            </div>
+        </section>
+
+                <aside class="coluna-direita">
+            <div class="sidebar-box sticky-sidebar">
+                <h2>Espaço do Admin</h2>
+                
+                {% for item in conteudos %}
+                <div class="card-oficial">
+                    {% if item.categoria == 'leitura' %}
+                        <span class="tag-oficial"><i class="fas fa-book-open"></i> Leitura</span>
+                    {% elif item.categoria == 'musica' %}
+                        <span class="tag-oficial g-music"><i class="fas fa-music"></i> Louvor</span>
                     {% else %}
-                    <div class="frase-destaque" style="text-align: center;">
-                        <p>Ainda não há mensagens compartilhadas. Seja o primeiro a postar!</p>
-                    </div>
-                    {% endfor %}
+                        <span class="tag-oficial g-aviso"><i class="fas fa-bullhorn"></i> Aviso</span>
+                    {% endif %}
+                    
+                    <h4>{{ item.titulo }}</h4>
+                    <p>"{{ item.conteudo }}"</p>
                 </div>
-            </section>
-
-            <section id="sobre">
-                <h2>Sobre Nós</h2>
-                <div class="frase-destaque">
-                    <p>A Casa de Deus é um espaço livre onde cristãos e devotos do mundo inteiro encontram um lugar para ler a palavra e se conectar em uma jornada espiritual coletiva.</p>
-                </div>
-            </section>
-
-            <section id="contato">
-                <h2>Contato</h2>
-                <div class="frase-destaque contato-box">
-                    <p>Entre em contato conosco através do e-mail: <a href="mailto:casadedeus2026@gmail.com">casadedeus2026@gmail.com</a></p>
-                </div>
-            </section>
-            
-        </div>
-    </main>
-
+                {% else %}
+                <p style="font-size: 0.9rem; color: #999; text-align: center;">Nenhum conteúdo oficial postado ainda.</p>
+                {% endfor %}
+            </div>
+        </aside>
+    </div>
+</main>
     <footer>
         <p>&copy; 2026 A Casa de Deus. Todos os direitos reservados.</p>
     </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

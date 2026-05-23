@@ -179,6 +179,120 @@ section h2 {
 }
 
 /* Modificações e novos elementos para o layout estilo Reddit */
+/* Estrutura Base do Layout de 3 Colunas */
+.layout-comunidade {
+    display: grid;
+    grid-template-columns: 300px 1fr 300px; /* Esquerda, Centro (expansível), Direita */
+    gap: 30px;
+    max-width: 1350px;
+    margin: 40px auto;
+    padding: 0 20px;
+    align-items: start;
+}
+
+/* Responsividade: Se a tela for pequena, vira uma coluna só */
+@media (max-width: 1024px) {
+    .layout-comunidade {
+        grid-template-columns: 1fr;
+    }
+    .sticky-sidebar {
+        position: static !important;
+    }
+}
+
+/* Configuração Geral das Sidebars (Esquerda e Direita) */
+.coluna-esquerda, .coluna-direita {
+    width: 100%;
+}
+
+.sidebar-box {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border-top: 4px solid #2d4a27;
+}
+
+/* Faz as sidebars acompanharem a rolagem do feed central */
+.sticky-sidebar {
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar-box h2 {
+    color: #2d4a27;
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* Coluna Central */
+.coluna-central {
+    min-width: 0; /* Previne quebras de layout com textos longos */
+}
+
+.coluna-central > h2 {
+    color: #2d4a27;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Estilo dos Cards Oficiais da Direita */
+.card-oficial {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid #2d4a27;
+}
+
+.card-oficial:last-child {
+    margin-bottom: 0;
+}
+
+.card-oficial h4 {
+    margin: 8px 0 5px 0;
+    color: #333;
+}
+
+.card-oficial p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Tags coloridas para os conteúdos oficiais */
+.tag-oficial {
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #2d4a27;
+    background-color: #e2ede0;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.tag-oficial.g-music {
+    color: #b45309;
+    background-color: #fef3c7;
+}
+
+.tag-oficial.g-aviso {
+    color: #1d4ed8;
+    background-color: #dbeafe;
+}
+
+/* Reset ou ajuste do Form para caber na sidebar menor */
+.formulario-box {
+    box-shadow: none;
+    padding: 0;
+    border-top: none;
+}
+
 
 .reddit-card {
     background-color: #ffffff;
